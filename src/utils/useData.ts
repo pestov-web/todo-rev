@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Category, Task } from '../types/api';
-import api from './apiController';
+import { Task } from '../types/task.ts';
+import { Category } from '../types/category.ts';
+import { api } from './apiController';
 
 export const useData = () => {
   const [tasks, setTasks] = useState<Task[]>([]);

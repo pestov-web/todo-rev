@@ -1,6 +1,6 @@
-import { NavMenu } from '../types/navMenu';
+import { NavMenuItems } from '../types/navMenuItems.ts';
 
-const navMenu: NavMenu[] = [
+const navMenuItems: NavMenuItems[] = [
   {
     id: 1,
     name: 'Задачи',
@@ -13,4 +13,4 @@ const navMenu: NavMenu[] = [
   },
 ];
 
-export default navMenu;
+export { navMenuItems };

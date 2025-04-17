@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { Category, Task } from '../types/api';
+import { Task } from '../types/task.ts';
+import { Category } from '../types/category.ts';
 
 class Api {
   private baseUrl: string;
@@ -106,4 +107,4 @@ const api = new Api(
   import.meta.env.VITE_API_URL || 'http://localhost:8089/api/ToDoList'
 );
 
-export default api;
+export { api };

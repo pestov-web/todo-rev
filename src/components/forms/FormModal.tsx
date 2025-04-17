@@ -20,4 +20,4 @@ function FormModal({
   );
 }
 
-export default FormModal;
+export { FormModal };

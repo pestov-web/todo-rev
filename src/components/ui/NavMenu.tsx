@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router';
-import navMenu from '../../utils/data-placeholder';
+import { navMenuItems } from '../../utils/data-placeholder';
 function NavMenu() {
   return (
     <nav className="nav">
       <ul className="nav__list">
-        {navMenu.map((item) => (
+        {navMenuItems.map((item) => (
           <li key={item.id} className="nav__list-item">
             <NavLink
               to={item.href}
@@ -23,4 +23,4 @@ function NavMenu() {
   );
 }
 
-export default NavMenu;
+export { NavMenu };

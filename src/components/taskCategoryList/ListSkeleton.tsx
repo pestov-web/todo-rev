@@ -29,4 +29,4 @@ function ListSkeleton() {
   );
 }
 
-export default ListSkeleton;
+export { ListSkeleton };

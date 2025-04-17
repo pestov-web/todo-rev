@@ -1,21 +1,31 @@
 import { Route, Routes } from 'react-router';
-import Header from './components/ui/Header';
-import List from './components/taskCategoryList/List';
 import ReactModal from 'react-modal';
-import FormModal from './components/forms/FormModal';
-import DeleteDialog from './components/forms/DeleteDialog';
-import { useAddEditModal, useDeleteModal } from './utils/useModal';
+
 import { useData } from './utils/useData';
-import AddEditForm from './components/forms/AddEditForm';
-import { Category, Task } from './types/api';
-import { AddEditModal } from './types/modals';
+import { Header } from './components/ui/Header.tsx';
+import { TaskList } from './components/taskCategoryList/TaskList.tsx';
+import { CategoryList } from './components/taskCategoryList/CategoryList.tsx';
+
+import { useRemoveTaskModal } from './utils/useRemoveTask.ts';
+import { useRemoveCategoryModal } from './utils/useRemoveCategory.ts';
+import { RemoveTaskDialog } from './components/forms/RemoveTaskDialog.tsx';
+import { RemoveCategoryDialog } from './components/forms/RemoveCategoryDialog.tsx';
+import { FormModal } from './components/forms/FormModal.tsx';
+import { useAddTaskModal } from './utils/useAddTask.ts';
+
+import { Task } from './types/task.ts';
+import { AddTaskForm } from './components/forms/AddTaskForm.tsx';
+import { Category } from './types/category.ts';
+import { useAddCategoryModal } from './utils/useAddCategory.ts';
+import { AddCategoryForm } from './components/forms/AddCategoryForm.tsx';
+import { useEditTaskModal } from './utils/useEditTask.ts';
+import { EditCategoryForm } from './components/forms/EditCategoryForm.tsx';
+import { useEditCategoryModal } from './utils/useEditCategory.ts';
+import { EditTaskForm } from './components/forms/EditTaskForm.tsx';
 
 ReactModal.setAppElement('#root');
 
 function App() {
-  const { deleteModal, openDeleteModal, closeDeleteModal } = useDeleteModal();
-  const { addEditModal, openAddEditModal, closeAddEditModal } =
-    useAddEditModal();
   const {
     tasks,
     categories,
@@ -28,88 +38,142 @@ function App() {
     deleteCategory,
   } = useData();
 
-  const handleDelete = async () => {
-    if (!deleteModal.elementId || !deleteModal.type) return;
-    if (deleteModal.type === 'task') {
-      await deleteTask(deleteModal.elementId);
-    } else {
-      await deleteCategory(deleteModal.elementId);
-    }
-    closeDeleteModal();
+  const { removeTaskModal, openRemoveTaskModal, closeRemoveTaskModal } =
+    useRemoveTaskModal();
+
+  const {
+    removeCategoryModal,
+    openRemoveCategoryModal,
+    closeRemoveCategoryModal,
+  } = useRemoveCategoryModal();
+
+  const { addTaskModal, openAddTaskModal, closeAddTaskModal } =
+    useAddTaskModal();
+
+  const { addCategoryModal, openAddCategoryModal, closeAddCategoryModal } =
+    useAddCategoryModal();
+
+  const { editTaskModal, openEditTaskModal, closeEditTaskModal } =
+    useEditTaskModal();
+
+  const { editCategoryModal, openEditCategoryModal, closeEditCategoryModal } =
+    useEditCategoryModal();
+
+  // удаление задачи
+  const handleRemoveTask = async () => {
+    await deleteTask(removeTaskModal.elementId as number);
+    closeRemoveTaskModal();
   };
 
-  const handleAddEdit = async (values: AddEditModal['values']) => {
-    console.log(values);
-    const { type, variant } = addEditModal;
-    if (!type || !variant || !values) return;
-    if (type === 'task') {
-      if (variant === 'add') {
-        await addTask(values as Task);
-      } else if (variant === 'edit') {
-        await updateTask(values as Task);
-      }
-    } else if (type === 'category') {
-      if (variant === 'add') {
-        await addCategory(values as Category);
-      } else if (variant === 'edit') {
-        await updateCategory(values as Category);
-      }
-    }
+  // удаление категории
+  const handleRemoveCategory = async () => {
+    await deleteCategory(removeCategoryModal.elementId as number);
+    closeRemoveCategoryModal();
+  };
 
-    closeAddEditModal();
+  // добавление задачи
+  const handleAddTask = async (values: Task) => {
+    await addTask(values);
+    closeAddTaskModal();
+  };
+
+  // добавление категории
+  const handleAddCategory = async (values: Category) => {
+    await addCategory(values);
+    closeAddCategoryModal();
+  };
+
+  // редактирование задачи
+  const handleEditTask = async (values: Task) => {
+    await updateTask(values);
+    closeEditTaskModal();
+  };
+
+  // редактирование категории
+  const handleEditCategory = async (values: Category) => {
+    await updateCategory(values);
+    closeEditCategoryModal();
   };
 
   return (
     <>
-      <Header openAddEditModal={openAddEditModal} />
+      <Header
+        openAddTaskModal={openAddTaskModal}
+        openAddCategoryModal={openAddCategoryModal}
+      />
       <main className="main">
         <section>
           <Routes>
             <Route
               path="/"
               element={
-                <List
+                <TaskList
                   data={tasks}
                   categories={categories}
                   loading={loading}
-                  onDeleteClick={openDeleteModal}
-                  openAddEditModal={openAddEditModal}
+                  openRemoveModal={openRemoveTaskModal}
+                  openEditModal={openEditTaskModal}
                 />
               }
             />
             <Route
               path="/categories"
               element={
-                <List
+                <CategoryList
                   data={categories}
                   loading={loading}
-                  onDeleteClick={openDeleteModal}
-                  openAddEditModal={openAddEditModal}
+                  openRemoveModal={openRemoveCategoryModal}
+                  openEditModal={openEditCategoryModal}
                 />
               }
             />
           </Routes>
         </section>
       </main>
-      {/* Delete Modal */}
-      <FormModal isOpen={deleteModal.isOpen} type="delete">
-        <DeleteDialog
-          modalData={deleteModal}
-          onConfirm={handleDelete}
-          closeDeleteModal={closeDeleteModal}
+      {/* Remove Modals */}
+      <FormModal isOpen={removeTaskModal.isOpen} type="delete">
+        <RemoveTaskDialog
+          onConfirm={handleRemoveTask}
+          closeModal={closeRemoveTaskModal}
+        />
+      </FormModal>
+      <FormModal isOpen={removeCategoryModal.isOpen} type="delete">
+        <RemoveCategoryDialog
+          onConfirm={handleRemoveCategory}
+          closeModal={closeRemoveCategoryModal}
         />
       </FormModal>
       {/* Add/Edit Modal */}
-      <FormModal isOpen={addEditModal.isOpen}>
-        <AddEditForm
+      <FormModal isOpen={addTaskModal.isOpen}>
+        <AddTaskForm
           categories={categories}
-          modalData={addEditModal}
-          closeModal={closeAddEditModal}
-          onSubmit={handleAddEdit}
+          closeModal={closeAddTaskModal}
+          onSubmit={handleAddTask}
+        />
+      </FormModal>
+      <FormModal isOpen={addCategoryModal.isOpen}>
+        <AddCategoryForm
+          closeModal={closeAddCategoryModal}
+          onSubmit={handleAddCategory}
+        />
+      </FormModal>
+      <FormModal isOpen={editCategoryModal.isOpen}>
+        <EditCategoryForm
+          modalData={editCategoryModal.values}
+          closeModal={closeEditCategoryModal}
+          onSubmit={handleEditCategory}
+        />
+      </FormModal>
+      <FormModal isOpen={editTaskModal.isOpen}>
+        <EditTaskForm
+          categories={categories}
+          modalData={editTaskModal.values}
+          closeModal={closeEditTaskModal}
+          onSubmit={handleEditTask}
         />
       </FormModal>
     </>
   );
 }
 
-export default App;
+export { App };

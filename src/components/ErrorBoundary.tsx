@@ -33,9 +33,13 @@ class ErrorBoundary extends Component<Props, State> {
                 icon="mdi:emoticon-dead-outline"
                 className="error-boundary__ico"
               />
-              <a href="/" className="error-boundary__link">
+              <button
+                className="error-boundary__link"
+                onClick={() => window.location.reload()}
+                type="button"
+              >
                 Перезагрузить
-              </a>
+              </button>
             </div>
           </section>
         </main>
@@ -46,4 +50,4 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default ErrorBoundary;
+export { ErrorBoundary };

@@ -9,9 +9,11 @@
 // components
 @use 'components/ui/Header.scss';
 @use 'components/ui/NavMenu.scss';
-@use 'components/taskCategoryList/List.scss';
+@use 'components/taskCategoryList/TaskList.scss';
+@use 'components/taskCategoryList/CategoryList.scss';
 @use 'components/taskCategoryList/ListSkeleton.scss';
 @use 'components/forms/Modal.scss';
 @use 'components/forms/Form.scss';
-@use 'components/forms/DeleteDialog.scss';
+@use 'components/forms/RemoveTaskDialog.scss';
+@use 'components/forms/RemoveCategoryDialog.scss';
 @use 'components/ui/ErrorBoundary.scss';
