@@ -1,0 +1,23 @@
+@use '../../../abstracts/variables';
+
+body {
+  background-color: variables.$background-color;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 5px;
+  &:hover {
+    background-color: variables.$item-hover-color;
+  }
+}
