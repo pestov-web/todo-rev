@@ -1,0 +1,29 @@
+@use '../../abstracts/mixins';
+@use '../../abstracts/variables';
+
+.remove-category-dialog {
+  &__title {
+    margin: 0;
+    text-align: left;
+    font-size: 40px;
+    font-weight: 400;
+  }
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    padding: 25px;
+    gap: 24px;
+  }
+  &__btn {
+    width: 120px;
+    height: 46px;
+    @include mixins.border;
+    &_delete {
+      color: variables.$text-white;
+      background-color: variables.$primary-color;
+    }
+    &_close {
+      color: variables.$primary-color;
+    }
+  }
+}

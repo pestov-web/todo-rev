@@ -1,0 +1,29 @@
+@use '../../abstracts/variables';
+
+.error-boundary {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+  }
+  &__title {
+    font-size: 54px;
+    color: variables.$error-color;
+  }
+  &__ico {
+    font-size: 300px;
+  }
+  &__link {
+    border: 2px solid variables.$item-hover-color;
+    border-radius: 15px;
+    padding: 10px;
+    text-decoration: 0;
+    font-size: 34px;
+    color: variables.$text-black;
+    &:hover {
+      background-color: variables.$item-hover-color;
+    }
+  }
+}

@@ -1,0 +1,83 @@
+@use '../../abstracts/mixins';
+@use '../../abstracts/variables';
+
+.form {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  box-sizing: border-box;
+  &__label {
+    position: relative;
+    padding: 1px;
+    &-title {
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      background-color: variables.$secondary-color;
+      padding: 0 3px;
+    }
+    &-error {
+      color: variables.$error-color;
+    }
+    &-description {
+      grid-column: span 2;
+    }
+    &_category {
+      grid-column: span 2;
+    }
+  }
+  &__input {
+    background-color: variables.$secondary-color;
+    padding: 5px 10px;
+    font-size: 16px;
+    width: 100%;
+    height: 46px;
+    box-sizing: border-box;
+    @include mixins.border;
+    &-textarea {
+      padding: 10px;
+      min-height: 72px;
+      max-width: 800px;
+      width: 100%;
+      height: fit-content;
+    }
+    &-select {
+      color: variables.$text-grey;
+      &_selected {
+        color: variables.$text-black;
+      }
+    }
+    &-option {
+      color: variables.$text-black;
+      &:disabled {
+        color: variables.$text-grey;
+      }
+    }
+  }
+
+  &__buttons-container {
+    grid-column: span 2;
+    justify-self: end;
+    display: flex;
+    gap: 24px;
+  }
+  &__submit-btn {
+    height: 46px;
+    width: 200px;
+    background-color: variables.$primary-color;
+    color: variables.$text-white;
+    justify-self: end;
+    @include mixins.border;
+  }
+  &__close-btn {
+    height: 46px;
+    width: 112px;
+    color: variables.$primary-color;
+    justify-self: end;
+    @include mixins.border;
+  }
+}

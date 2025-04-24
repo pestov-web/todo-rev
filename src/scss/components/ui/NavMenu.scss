@@ -1,0 +1,31 @@
+@use '../../abstracts/variables';
+
+.nav {
+  &__list {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+
+    &-item {
+      position: relative;
+      &:not(:last-child) {
+        ::after {
+          content: '|';
+          margin-left: 8px;
+          color: variables.$secondary-color;
+        }
+      }
+      &-link {
+        color: variables.$secondary-color;
+        &_active {
+          color: variables.$link-active-color;
+        }
+        &:hover {
+          color: variables.$link-active-color;
+        }
+      }
+    }
+  }
+}
